@@ -1,50 +1,56 @@
-# 性能测试
+package main
 
-## Benchmark性能测试
-运行echo_test.go
-```shell
-cd EchoService
-go test -bench=. echo_test.go
-```
-运行student_test.go
-```shell
-cd StudentService
-go test -bench=. student_test.go
-```
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"math/rand"
+	"net/http"
+	"testing"
+	"time"
+)
 
-# TestingFile
+// Student represents the student data structure.
+type Student struct {
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	College struct {
+		Name    string `json:"name"`
+		Address string `json:"address"`
+	} `json:"college"`
+	Email []string `json:"email"`
+}
 
-# 系统测试文档
+// aUrlRegister is the URL for registering a student.
+const aUrlRegister = "http://127.0.0.1:8888/gateway/StudentService/Register"
+const aUrlEcho = "http://localhost:8888/gateway/EchoService/Echo"
 
-| 变更人    | 变更时间   | 变更内容       | 版本号  |
-|--------| ---------- |------------|------|
-| 高宇轩    | 2023-07-31 | 完成测试文档基本内容 | v1.0 |
-| 刘子恒，曹信 | 2023-07-31 | 修改完善       | v2.0 |
+// generateRandomStudent generates a random student for testing.
+func generateRandomStudent() Student {
+	st := Student{
+		ID:   rand.Intn(1000) + 1 + 32,
+		Name: fmt.Sprintf("Student%d", rand.Intn(100)),
+		College: struct {
+			Name    string `json:"name"`
+			Address string `json:"address"`
+		}{
+			Name:    fmt.Sprintf("College%d", rand.Intn(10)),
+			Address: fmt.Sprintf("Address%d", rand.Intn(100)),
+		},
+	}
+	emailCount := rand.Intn(5) + 1 // Generate a random number between 1 and 5
+	st.Email = make([]string, emailCount)
+	for i := 0; i < emailCount; i++ {
+		st.Email[i] = fmt.Sprintf("email%d@test.com", rand.Intn(100))
+	}
 
-# 1.引言
+	return st
+}
 
-测试文档由软件设计说明所驱动。测试用于验证模块单元实现了模块设计中定义的规格。一个完整的单元测试说明应该包含白盒测试和黑盒测试。测试验证程序应该执行的工作，测试验证程序不应该执行的工作。
-
-## 1.1编写目的
-
-通过测试尽可能的找出项目中的错误，并加以纠正。测试不仅是最后的复审，更是保证软件质量的关键。 简单地说就是想尽一切方法尝试“破坏”它，这样才能找出失败与不足之处，最终的任务就是构造更高质量的软件产品。
-
-## 1.2参考文献
-
-1. IEEE标准
-2. 《软件工程与计算(卷二):软件开发的技术基础》刘钦、丁二玉著
-3. MSCS软件需求规格文档
-
-# 2.测试平台
-
-Ubuntu20.04
-
-# 3.测试用例
-
-### 3.1 StudentService的测试用例
-
-```go
-
+type RegisterResponse struct {
+	Message string `json:"message"`
+	Success bool   `json:"success"`
+}
 
 // BenchmarkStudentServiceRegister tests the performance of the StudentService Register function.
 func BenchmarkStudentServiceRegister(b *testing.B) {
@@ -89,12 +95,16 @@ func BenchmarkStudentServiceRegister(b *testing.B) {
 		b.Logf("Student registration successful: %+v (Elapsed time: %v)", student, elapsed)
 	}
 }
-```
 
-### 3.2 EchoService的测试用例
+type EchoRequest struct {
+	Message string `json:"message"`
+}
 
-```go
-/ BenchmarkEchoService tests the performance of the EchoService Echo function.
+type EchoResponse struct {
+	Message string `json:"message"`
+}
+
+// BenchmarkEchoService tests the performance of the EchoService Echo function.
 func BenchmarkEchoService(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		// Create a random message for testing
@@ -142,16 +152,3 @@ func BenchmarkEchoService(b *testing.B) {
 		b.Logf("EchoService successful: Request=%q, Response=%q (Elapsed time: %v)", message, response.Message, elapsed)
 	}
 }
-
-```
-
-
-
-| 测试名称  | 测试内容     | 预期结果     | 测试结果 |
-| --------- | ------------ | ------------ | -------- |
-| main_test | 发送http请求 | 验证返回信息 | 通过     |
-
-# 4.结论
-
-网关的关键功能已成功实现并能通过测试，能够正常使用
-
