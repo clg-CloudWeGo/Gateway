@@ -1,16 +1,132 @@
 # Gateway
+项目结构
 ```
-.
-├── APILayer
-├── CourseManagementService
-├── CoursePurchaseSeervice
+├── EchoService
+│   ├── build.sh
+│   ├── client
+│   │   └── main.go
+│   ├── echo.thrift
+│   ├── echo_test.go
+│   ├── go.mod
+│   ├── go.sum
+│   ├── handler.go
+│   ├── kitex_gen
+│   │   └── api
+│   │       ├── echo
+│   │       │   ├── client.go
+│   │       │   ├── echo.go
+│   │       │   ├── invoker.go
+│   │       │   └── server.go
+│   │       ├── echo.go
+│   │       ├── k-consts.go
+│   │       └── k-echo.go
+│   ├── kitex_info.yaml
+│   ├── main.go
+│   ├── script
+│   │   └── bootstrap.sh
+│   └── todo.md
+├── Gateway
+│   ├── biz
+│   │   ├── handler
+│   │   │   └── hertzSvr
+│   │   │       ├── gateway
+│   │   │       │   └── gateway.go
+│   │   │       ├── idlManager
+│   │   │       │   └── idlservice.go
+│   │   │       ├── init.go
+│   │   │       └── utils
+│   │   │           └── utils.go
+│   │   ├── model
+│   │   │   └── hertzSvr
+│   │   │       └── idlManager
+│   │   │           └── gateway.go
+│   │   └── router
+│   │       ├── hertzSvr
+│   │       │   └── idlManager
+│   │       │       ├── gateway.go
+│   │       │       └── middleware.go
+│   │       └── register.go
+│   ├── build.sh
+│   ├── go.mod
+│   ├── go.sum
+│   ├── main.go
+│   ├── router.go
+│   ├── router_gen.go
+│   └── script
+│       └── bootstrap.sh
+├── IDLManagementPlatform
+│   ├── IDLMessage.db
+│   ├── biz
+│   │   ├── handler
+│   │   │   └── hertzSvr
+│   │   │       └── service
+│   │   │           └── idlservice.go
+│   │   ├── model
+│   │   │   └── hertzSvr
+│   │   │       └── service
+│   │   │           └── idlmanager.go
+│   │   └── router
+│   │       ├── hertzSvr
+│   │       │   └── service
+│   │       │       ├── idlmanager.go
+│   │       │       └── middleware.go
+│   │       └── register.go
+│   ├── build.sh
+│   ├── go.mod
+│   ├── go.sum
+│   ├── main.go
+│   ├── router.go
+│   ├── router_gen.go
+│   └── script
+│       └── bootstrap.sh
+├── README.md
+├── StudentService
+│   ├── build.sh
+│   ├── client
+│   │   └── main.go
+│   ├── foo.db
+│   ├── go.mod
+│   ├── go.sum
+│   ├── handler.go
+│   ├── kitex_gen
+│   │   └── demo
+│   │       ├── k-consts.go
+│   │       ├── k-student.go
+│   │       ├── student.go
+│   │       └── studentservice
+│   │           ├── client.go
+│   │           ├── invoker.go
+│   │           ├── server.go
+│   │           └── studentservice.go
+│   ├── kitex_info.yaml
+│   ├── main.go
+│   ├── model
+│   │   └── student.go
+│   ├── output
+│   │   ├── bin
+│   │   │   └── student.nju.rpc
+│   │   ├── bootstrap.sh
+│   │   └── log
+│   │       ├── app
+│   │       └── rpc
+│   ├── script
+│   │   └── bootstrap.sh
+│   ├── student.thrift
+│   └── student_test.go
+├── default.etcd
+│   └── member
+│       ├── snap
+│       │   └── db
+│       └── wal
+│           ├── 0.tmp
+│           └── 0000000000000000-0000000000000000.wal
 ├── idl
-│   ├── course_manage.thrift
-│   ├── course_purchase.thrift
 │   ├── gateway.thrift
 │   └── idlmanager.thrift
-├── IDLManagementPlatform
-└── README.md
+└── 测试文档.md
+
+50 directories, 74 files
+
 ```
 
 ## 依赖
@@ -18,6 +134,7 @@
 - kitex
 - hertz
 - etcd
+- thriftgo
 
 
 ## 运行
@@ -100,4 +217,4 @@ rm IDLManagementPlatform/IDLMessage.db
 ```
 
 ## 性能测试
-见[测试文档.md](./测试文档.md)
+见[测试文档.md](./测试文档.md).
