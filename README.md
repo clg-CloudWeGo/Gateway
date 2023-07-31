@@ -98,3 +98,6 @@ curl -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/gateway/St
 ```shell
 rm IDLManagementPlatform/IDLMessage.db
 ```
+
+## 性能测试
+见[测试文档.md](./测试文档.md)
