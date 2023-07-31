@@ -11,6 +11,7 @@ import (
 )
 
 func Gateway(ctx context.Context, c *app.RequestContext) {
+	fmt.Println("in Gateway")
 	serviceName := c.Param("service")
 	methodName := c.Param("method")
 
@@ -46,7 +47,7 @@ func Gateway(ctx context.Context, c *app.RequestContext) {
 	// 进行HTTP泛化调用
 	resp, err := utils.GetHTTPGenericResponse(ctx, c, methodName, clientInfo.Cli)
 	fmt.Println("this is generic call resp.Body")
-	fmt.Println(resp.Body)
+	//fmt.Println(resp.Body)
 	if err != nil {
 		c.JSON(consts.StatusBadGateway, hertzSvr.Response{
 			Success: false,

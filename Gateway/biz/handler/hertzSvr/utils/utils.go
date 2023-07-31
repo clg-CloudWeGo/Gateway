@@ -51,19 +51,24 @@ func NewClient(destServiceName string, provider *generic.ThriftContentProvider, 
 // GetHTTPGenericResponse 获取http泛化调用后的response
 func GetHTTPGenericResponse(ctx context.Context, c *app.RequestContext, methodName string, cli genericclient.Client) (*generic.HTTPResponse, error) {
 	httpReq, err := adaptor.GetCompatRequest(c.GetRequest())
+	fmt.Println(httpReq)
 	customReq, err := generic.FromHTTPRequest(httpReq)
+	fmt.Println(customReq)
 	if err != nil {
+		fmt.Println("---- customReq panic")
 		return nil, err
 	}
 	// customReq *generic.HttpRequest
 	// 由于 hertz 泛化的 method 是通过 bam 规则从 hertz request 中获取的，所以填空就行
 	fmt.Println(string(c.GetRequest().Body()))
 	fmt.Println(cli)
-	fmt.Println("this is genertic method name" + methodName)
+	fmt.Println(ctx)
+	fmt.Println("this is generic method name: " + methodName)
 	resp, err := cli.GenericCall(ctx, methodName, customReq)
 	if err != nil {
 		return nil, err
 	}
 	realResp := resp.(*generic.HTTPResponse)
+	fmt.Println(realResp)
 	return realResp, nil
 }

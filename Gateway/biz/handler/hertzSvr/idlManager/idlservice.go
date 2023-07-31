@@ -14,7 +14,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
 
-var idlQueryUrl = "http://localhost:8889/idl/query"
+var idlQueryUrl = "http://localhost:6666/idl/query"
 
 type IDLInfo struct {
 	Name string `json:"name"`
