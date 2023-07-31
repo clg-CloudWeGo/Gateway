@@ -9,6 +9,6 @@ struct Response {
 }
 
 service Echo {
-    Response echo(1: Request req)
+    Response echo(1: Request req)(api.post="/gateway/EchoService/Echo")
 }
 
