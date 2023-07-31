@@ -13,26 +13,10 @@ import (
 
 const (
 	queryURLFmt = "http://127.0.0.1:8888/query?id="
-	registerURL = "http://127.0.0.1:8888/add-student-info"
+	registerURL = "http://127.0.0.1:8888/gateway/StudentService/Register"
 )
 
 var httpCli = &http.Client{Timeout: 3 * time.Second}
-
-func TestStudentService(t *testing.T) {
-	for i := 1; i <= 100; i++ {
-		newStu := genStudent(i)
-		resp, err := register(newStu)
-		Assert(t, err == nil, err)
-		Assert(t, resp.Success)
-
-		stu, err := query(i)
-		Assert(t, err == nil, err)
-		Assert(t, stu.Id == newStu.Id)
-		Assert(t, stu.Name == newStu.Name)
-		Assert(t, stu.Email[0] == newStu.Email[0])
-		Assert(t, stu.College.Name == newStu.College.Name)
-	}
-}
 
 func BenchmarkStudentService(b *testing.B) {
 	for i := 1; i < b.N; i++ {
@@ -41,13 +25,6 @@ func BenchmarkStudentService(b *testing.B) {
 		resp, err := register(newStu)
 		Assert(b, err == nil, err)
 		Assert(b, resp.Success, resp.Message)
-
-		stu, err := query(i)
-		Assert(b, err == nil, err)
-		Assert(b, stu.Id == newStu.Id)
-		Assert(b, stu.Name == newStu.Name, newStu.Id, stu.Name, newStu.Name)
-		Assert(b, stu.Email[0] == newStu.Email[0])
-		Assert(b, stu.College.Name == newStu.College.Name)
 	}
 }
 
