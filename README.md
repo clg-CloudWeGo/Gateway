@@ -88,13 +88,6 @@ curl -H "Content-Type: application/json" -X POST http://127.0.0.1:8888/gateway/S
 ```
 
 
-3. 调用学生查询服务（没实现，需要把get改成post）
-
-
-
-```shell
-curl -H "Content-Type: application/json" -X GET http://127.0.0.1:8888/gateway/StudentService/Query
-```
 
 ### 清理数据库残余
 若不清理，下次注册idl会显示已经注册
